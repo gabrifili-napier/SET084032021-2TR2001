@@ -10,7 +10,7 @@ public class App {
 
         System.out.println("Report System On");
         // Connect to MongoDB on local system - we're using port 27000
-        MongoClient mongoClient = new MongoClient("localhost", 27000);
+        MongoClient mongoClient = new MongoClient("mongo-dbserver");
         // Get a database - will create when we use it
         MongoDatabase database = mongoClient.getDatabase("mydb");
         // Get a collection from the database
