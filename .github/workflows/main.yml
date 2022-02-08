@@ -3,7 +3,7 @@ on: push
 
 jobs:
   build:
-    name: Hello world action
+    name: Test Starting Code
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
