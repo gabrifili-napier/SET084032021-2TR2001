@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>SeMethods_Assesment</artifactId>
-    <version>0.1-alpha-2</version>
+    <version>0.1-alpha-5</version>
 
     <properties>
         <maven.compiler.source>10</maven.compiler.source>
@@ -44,9 +44,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongodb-driver</artifactId>
-            <version>3.6.4</version>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.18</version>
         </dependency>
     </dependencies>
 
