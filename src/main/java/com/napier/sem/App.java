@@ -12,10 +12,15 @@ public class App
         // Connect to database
         a.connect();
 
-        // Get Employee
+        // Get city
         City city = a.getCity(1);
         // Display results
         a.displayCity(city);
+
+        // Get country
+        Country country = a.getCountry("ABW");
+        // Display results
+        a.displayCountry(country);
 
         // Disconnect from database
         a.disconnect();
@@ -56,7 +61,7 @@ public class App
             return null;
         }
     }
-
+    /** Display Country Info **/
     public void displayCity(City city)
     {
         if (city != null)
@@ -68,6 +73,74 @@ public class App
                             + city.district + "\n"
                             + city.population + "\n"
                             + city.country + "\n");
+
+        }
+    }
+    /** get Country Info from DB **/
+    public Country getCountry(String code)
+    {
+        try
+        {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT Code, Name, Continent, Region, SurfaceArea, IndepYear, Population, LifeExpectancy, GNP, GNPOld, LocalName, GovernmentForm, HeadOfState, Capital, Code2  "
+                            + "FROM country ";
+            // + "WHERE emp_no = " + ID;
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Return new employee if valid.
+            // Check one is returned
+            if (rset.next())
+            {
+                Country country = new Country();
+                country.code = rset.getString("code");
+                country.name = rset.getString("name");
+                country.continent = rset.getString("continent");
+                country.region = rset.getString("region");
+                country.surfaceArea = rset.getDouble("surfacearea");
+                country.population = rset.getInt("population");
+                country.lifeExpectancy = rset.getDouble("lifeExpectancy");
+                country.gnp = rset.getDouble("gnp");
+                country.gnpOld = rset.getDouble("gnpOld");
+                country.localName = rset.getString("localName");
+                country.governmentForm = rset.getString("governmentForm");
+                country.headOfState = rset.getString("headOfState");
+                country.capital = rset.getInt("capital");
+                country.code2 = rset.getString("code2");
+                return country;
+            }
+            else
+                return null;
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get Country details");
+            return null;
+        }
+    }
+    /** Show Country Information **/
+    public void displayCountry(Country country)
+    {
+        if (country != null)
+        {
+            System.out.println(
+                    country.code + " "
+                            + country.name + " "
+                            + country.continent + "\n"
+                            + country.region + "\n"
+                            + country.surfaceArea +"\n"
+                            + country.population +"\n"
+                            + country.lifeExpectancy +"\n"
+                            + country.gnp +"\n"
+                            + country.gnpOld + "\n"
+                            + country.localName +"\n"
+                            + country.governmentForm +"\n"
+                            + country.headOfState +"\n"
+                            + country.capital +"\n"
+                            + country.code2);
 
         }
     }
