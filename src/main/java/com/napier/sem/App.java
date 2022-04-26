@@ -37,6 +37,8 @@ public class App
         //Extract country population information
         ArrayList<Country> countries = a.getPopulations();
 
+        a.printTopCountriesByPopulationLTS(countries);
+
             /** City Reports **/
         // Extract country population information
         ArrayList<City> cities = a.getCityPopulations();
@@ -64,10 +66,7 @@ public class App
             String strSelect =
                     "SELECT  country.Name, country.Population "
                             + "FROM country "
-                            //+ "WHERE country.Code = city.CountryCode "
-                            //+ "GROUP BY country.Name "
-                            + "ORDER BY country.Name ASC "
-                            + "LIMIT 10 "; //To limit returns when running queries
+                            + "ORDER BY country.Name ASC ";
 
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
@@ -88,6 +87,28 @@ public class App
             System.out.println(e.getMessage());
             System.out.println("Failed to get country details");
             return null;
+        }
+    }
+
+    public void printTopCountriesByPopulationLTS(ArrayList<Country> getPopulations)
+    {
+        // Check city != null
+        if (getPopulations == null)
+        {
+            System.out.println("No Countries");
+            return;
+        }
+        // Print header
+        System.out.printf("%-35s %-12s \n", "Name", "Population");
+        // Loop over all cities in the list
+        for (Country country2 : getPopulations)
+        {
+            if (country2 == null)
+                continue;
+            String city_string =
+                    String.format("%-35s %-45s",
+                            country2.name, country2.population);
+            System.out.println(city_string);
         }
     }
 
@@ -276,8 +297,8 @@ public class App
             if (city2 == null)
                 continue;
             String city_string =
-                    String.format("%-35s %-45s %-12s",
-                            city2.name, city2.country, city2.population);
+                    String.format("%-35s %-12s",
+                            city2.name, city2.population);
             System.out.println(city_string);
         }
     }
@@ -294,7 +315,7 @@ public class App
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
-                    "SELECT  city.Name, city.Country, city.Population "
+                    "SELECT  city.Name, city.Population "
                             + "FROM city "
                             //+ "GROUP BY city.District "
                             + "ORDER BY city.Name ASC "
@@ -308,7 +329,7 @@ public class App
             {
                 City city2 = new City();
                 city2.name = rset.getString("city.Name");
-                city2.country = rset.getString("city.Country");
+                //city2.country = rset.getString("city.Country");
                 city2.population = rset.getInt("city.Population");
                 cities.add(city2);
             }
