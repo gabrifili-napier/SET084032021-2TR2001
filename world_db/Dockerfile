@@ -1,5 +1,5 @@
 # Use the latest MySQL image
-FROM mysql/mysql-server
+FROM mysql
 # Set the working directory
 WORKDIR /tmp
 # Copy all the files to the working directory of the container
@@ -11,7 +11,7 @@ COPY *.sql /tmp/
 COPY world.sql /docker-entrypoint-initdb.d
 # Set the root password
 ENV MYSQL_ROOT_PASSWORD example
-ENV MYSQL_DATABASE=world
-ENV MYSQL_ROOT_HOST=%
+#ENV MYSQL_DATABASE=world
+#ENV MYSQL_ROOT_HOST=%
 #ENTRYPOINT ["docker-entrypoint.sh"]
 #CMD ["mysqld"]
