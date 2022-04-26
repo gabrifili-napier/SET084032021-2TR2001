@@ -6,7 +6,7 @@ public class CountryLanguage {
     /**
      * Code of the Country
      */
-    public String countriesCode;
+    public String countryCode;
     /**
      * Language
      */

@@ -145,6 +145,53 @@ public class App
         }
     }
 
+    public CountryLanguage getLanguage(String Code)
+    {
+        try
+        {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT CountryCode, Language, IsOfficial, Percentage "
+                            + "FROM countrylanguage "
+                            + "WHERE CountryCode = " + "CountryCode";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Return new city if valid.
+            // Check one is returned
+            if (rset.next())
+            {
+                CountryLanguage countryLanguage2 = new CountryLanguage();
+                countryLanguage2.countryCode = rset.getString("CountryCode");
+                countryLanguage2.language = rset.getString("Language");
+                countryLanguage2.isOfficial = rset.getString("IsOfficial");
+                countryLanguage2.percentage = rset.getInt("Percentage");
+                return countryLanguage2;
+            }
+            else
+                return null;
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get language details");
+            return null;
+        }
+    }
+    public void displayCountryLanguage(CountryLanguage countryLanguage2)
+    {
+        if (countryLanguage2 != null)
+        {
+            System.out.println(
+                    countryLanguage2.countryCode + " "
+                            + countryLanguage2.language + " "
+                            + countryLanguage2.isOfficial + "\n"
+                            + countryLanguage2.percentage + "\n");
+        }
+    }
+
+
     /**
      * Connection to MySQL database.
      */
