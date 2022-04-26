@@ -22,6 +22,11 @@ public class App
         // Display results
         a.displayCountry(country);
 
+        // Get Language
+        CountryLanguage language = a.getLanguage("ABW");
+        //Show Language
+        a.displayCountryLanguage(language);
+
         // Disconnect from database
         a.disconnect();
     }
@@ -184,8 +189,8 @@ public class App
         if (countryLanguage2 != null)
         {
             System.out.println(
-                    countryLanguage2.countryCode + " "
-                            + countryLanguage2.language + " "
+                    countryLanguage2.countryCode + "\n"
+                            + countryLanguage2.language + "\n"
                             + countryLanguage2.isOfficial + "\n"
                             + countryLanguage2.percentage + "\n");
         }
