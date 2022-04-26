@@ -1,10 +1,28 @@
+import com.napier.sem.App;
+import com.napier.sem.City;
+import com.napier.sem.Country;
 import org.junit.jupiter.api.*;
+
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class test {
-    @Test
-    void unitTest()
+
+    static App app;
+
+    @BeforeAll
+    static void init()
     {
-        assertEquals(5, 5);
+        app = new App();
+    }
+
+    @Test
+    void printTopCapitalCityRegionPopulationsEmpty()
+    {
+        // Create Array
+        ArrayList<City> cities = new ArrayList<City>();
+        //Pass Empty Array
+        app.printTopCapitalCityRegionPopulations(cities);
     }
 }
