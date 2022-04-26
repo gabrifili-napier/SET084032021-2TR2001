@@ -1,6 +1,12 @@
 package com.napier.sem;
 
 import java.sql.*;
+import java.util.ArrayList;
+
+/**
+ * Application has been created to produce a number of reports on
+ * Cities, countries and Languages across the World.
+ */
 
 public class App
 {
@@ -27,9 +33,64 @@ public class App
         //Show Language
         a.displayCountryLanguage(language);
 
+            /** Country Reports **/
+        //Extract country population information
+        ArrayList<Country> countries = a.getPopulations();
+
+            /** City Reports **/
+        // Extract country population information
+        ArrayList<City> cities = a.getCityPopulations();
+
+        a.printTopCapitalCityRegionPopulations(cities);
+
+            /** Language Reports **/
+
+
         // Disconnect from database
         a.disconnect();
     }
+
+    /** Country Reports
+     * Gets all countries and populations.
+     * @return A list of all countries and populations, or null if there is an error.
+     */
+    public ArrayList<Country> getPopulations()
+    {
+        try
+        {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT  country.Name, country.Population "
+                            + "FROM country "
+                            //+ "WHERE country.Code = city.CountryCode "
+                            //+ "GROUP BY country.Name "
+                            + "ORDER BY country.Name ASC "
+                            + "LIMIT 10 "; //To limit returns when running queries
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Extract country information
+            ArrayList<Country> countries = new ArrayList<Country>();
+            while (rset.next())
+            {
+                Country country2 = new Country();
+                country2.districtName = rset.getString("country.Name");
+                country2.population = rset.getInt("country.Population");
+                countries.add(country2);
+            }
+            return countries;
+
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get country details");
+            return null;
+        }
+    }
+
     /** get City Info from DB**/
     public City getCity(int ID)
     {
@@ -95,7 +156,6 @@ public class App
             // + "WHERE emp_no = " + ID;
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
-            // Return new employee if valid.
             // Check one is returned
             if (rset.next())
             {
@@ -196,6 +256,71 @@ public class App
         }
     }
 
+    /**
+     * Prints a list of capital cities within a specific region by pop decreasing.
+     * @param cities list of countries to print.
+     */
+    public void printTopCapitalCityRegionPopulations(ArrayList<City> cities)
+    {
+        // Check city != null
+        if (cities == null)
+        {
+            System.out.println("No cities");
+            return;
+        }
+        // Print header
+        System.out.printf("%-35s %-45s %-12s \n", "Name", "Country", "Population");
+        // Loop over all cities in the list
+        for (City city2 : cities)
+        {
+            if (city2 == null)
+                continue;
+            String city_string =
+                    String.format("%-35s %-45s %-12s",
+                            city2.name, city2.country, city2.population);
+            System.out.println(city_string);
+        }
+    }
+
+    /**
+     * Gets all cities and populations.
+     * @return A list of all cities and populations, or null if there is an error.
+     */
+    public ArrayList<City> getCityPopulations()
+    {
+        try
+        {
+           // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT  city.Name, city.Population "
+                            + "FROM city "
+                            //+ "GROUP BY city.District "
+                            + "ORDER BY city.Name ASC "
+                            + "LIMIT 50 ";
+
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // retrieve city info
+            ArrayList<City> cities = new ArrayList<City>();
+            while (rset.next())
+            {
+                City city2 = new City();
+                city2.name = rset.getString("city.Name");
+                city2.population = rset.getInt("city.Population");
+                cities.add(city2);
+            }
+            return cities;
+
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get city details");
+            return null;
+        }
+    }
 
     /**
      * Connection to MySQL database.
